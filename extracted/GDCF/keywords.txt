@@ -1,3 +1,6 @@
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
 GDCF	KEYWORD1
 Token	KEYWORD1
 Node	KEYWORD1
@@ -6,3 +9,40 @@ Scheduler	KEYWORD1
 Router	KEYWORD1
 DMAEngine	KEYWORD1
 PIOEngine	KEYWORD1
+MemoryPool	KEYWORD1
+MACPipeline	KEYWORD1
+Compiler	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+begin	KEYWORD2
+addNode	KEYWORD2
+sendToken	KEYWORD2
+executeGraph	KEYWORD2
+setRoute	KEYWORD2
+enqueue	KEYWORD2
+execute	KEYWORD2
+route	KEYWORD2
+setMapping	KEYWORD2
+clearMapping	KEYWORD2
+schedule	KEYWORD2
+enableMulticore	KEYWORD2
+startTransfer	KEYWORD2
+initTokenTransport	KEYWORD2
+sendWord	KEYWORD2
+receiveWord	KEYWORD2
+allocate	KEYWORD2
+free	KEYWORD2
+multiplyAccumulate	KEYWORD2
+dot	KEYWORD2
+step	KEYWORD2
+compileGraph	KEYWORD2
+printTokenInfo	KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+GDCF_ROUTE_NONE	LITERAL1
+GDCF_MAX_NODES	LITERAL1
+GDCF_TOKEN_QUEUE_SIZE	LITERAL1

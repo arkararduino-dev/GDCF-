@@ -1,19 +1,33 @@
-; Simple PIO program for token shifting/transport on RP2040
+; PIO program for token transport on RP2040.
+; Pulls a 32-bit token word from the TX FIFO, shifts it out one bit per clock
+; on the configured pin, then echoes the word back into the RX FIFO so the CPU
+; can confirm the transfer completed.
 .program shift_token
 
 .wrap_target
-    pull block
-    out pins, 1
-    push block
+    pull block          ; wait for a token word in the TX FIFO -> OSR
+    set x, 31           ; 32 bits to shift out
+bitloop:
+    out pins, 1         ; shift one bit to the output pin
+    jmp x-- bitloop     ; repeat for all 32 bits
+    push block          ; signal completion back to the RX FIFO
 .wrap
 
 % c-sdk {
-    static inline void shift_token_program_init(PIO pio, uint sm, uint offset, uint pin) {
+    static inline void shift_token_program_init(PIO pio, uint sm, uint offset, uint pin, float clkdiv) {
         pio_sm_config c = shift_token_program_get_default_config(offset);
-        sm_config_set_sideset(&c, 1, false, false);
-        sm_config_set_sideset_pins(&c, pin);
+
+        // 'out pins' targets a single pin.
+        sm_config_set_out_pins(&c, pin, 1);
+        pio_gpio_init(pio, pin);
         pio_sm_set_consecutive_pindirs(pio, sm, pin, 1, true);
+
+        // Shift OSR to the right (LSB first) with autopull disabled.
+        sm_config_set_out_shift(&c, true, false, 32);
+        sm_config_set_clkdiv(&c, clkdiv);
+
         pio_sm_init(pio, sm, offset, &c);
+        pio_sm_set_enabled(pio, sm, true);
     }
 }
 %

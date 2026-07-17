@@ -5,6 +5,7 @@ Scheduler::Scheduler() : useCore1(false) {}
 
 void Scheduler::schedule(Token& token) {
     // Topological scheduling simulation
+    (void)token;
     Serial.println("Scheduling token...");
 }
 
